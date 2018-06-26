@@ -60,8 +60,6 @@ app.controller('myCtrl', function($scope) {
 	    n > 9 ? f = ">2d" : 0;
 	    
 	    $scope.f = f;
-	    // console.log("n = " + $scope.n);
-	    // console.log("f = " + $scope.f);
 	    $scope.coffee = false;
 	    $scope.showFront = true;
         $scope.showBack = !$scope.showFront;
@@ -75,6 +73,9 @@ app.controller('myCtrl', function($scope) {
 	}, {
 		value: 'bleach',
 		label: 'Bleach'
+	},{
+		value: 'clannad',
+		label: 'Clannad'
 	}];
 });
 
