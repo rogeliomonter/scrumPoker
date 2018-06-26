@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="myCtrl">
+<head>
+	<title>Scrum Poker - {{text}}</title>
+	<link href="style.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<script src="app.js"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<link rel="shortcut icon" type="image/png" href="favicon.png"/>
+	<link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
+	<meta property="og:site_name" content="Scrum Poker">
+	<meta property="og:title" content="Scrum Poker" />
+	<meta property="og:description" content="Tarjetas de planeación para estimaciones de tiempos de trabajo en proyectos Scrum, con temática anime" />
+	<meta property="og:image" itemprop="image" content="https://rmonterlabs.azurewebsites.net/poker/favicon.png">
+	<meta property="og:type" content="website" />
+</head>
+<body  ng-init="fibonacciReset(); coffee = false; themeList.value = 'dbz'; themeList.label = 'Dragon Ball'">
+	<div class="scene">
+		<div class="bothCards" id="card" ng-class="{'flipped':isFlipped}">
+			<div class="card-holder front" ng-show="showFront">
+				<div class="card">
+					<div class="card-edge edge-top" ng-click="fibonacciUp()" ng-class="color_alt">
+						<span class="tag">{{text}}</span>
+						<span class="element" ng-class="color"><span>{{f}}</span></span>
+					</div>
+					<div class="card-container" ng-click="flipCard()">
+						<img ng-src="img/{{themeList.value}}/{{img}}.png">
+						<img ng-src="img/{{themeList.value}}/{{img}}.png">
+					</div>
+					<div class="card-edge edge-bottom" ng-click="fibonacciDn()" ng-class="color_alt">
+						<span class="tag">{{text}}</span>
+						<span class="element" ng-class="color"><span>{{f}}</span></span>
+					</div>
+				</div>
+			</div>
+			<div class="card-holder back" ng-show="showBack">
+				<div class="card">
+					<div class="card-edge edge-top" ng-class="color">
+					</div>
+					<div class="card-container" ng-click="flipCard()">
+						<img ng-src="img/{{themeList.value}}/0.png">
+					</div>
+					<div class="card-edge edge-bottom" ng-class="color_alt">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<button type="button" class="btn" ng-class="color" ng-click="fibonacciUp()" title="Más horas"><i class="fas fa-angle-up fa-3x"></i></button>
+		</div>
+		<div class="col">
+			<button type="button" class="btn" ng-class="color" ng-click="fibonacciReset()" title="Reiniciar"><i class="fas fa-undo fa-3x"></i></button>
+		</div>
+		<div class="col">
+			<button type="button" class="btn" ng-class="color" ng-click="fibonacciDn()" title="Menos horas"><i class="fas fa-angle-down fa-3x"></i></button>
+		</div>
+		<div class="col">
+			<button type="button" class="btn" ng-class="color" ng-click="flipCard()" title="Voltear carta"><i class="fas fa-sync-alt fa-3x"></i></button>
+		</div>
+		<div class="col">
+			<button type="button" class="btn" ng-class="color" ng-click="coffeeBreak()" title="Receso"><i class="fas fa-coffee fa-3x"></i></button>
+		</div>
+		<div class="col">
+			<button type="button" class="btn" ng-class="color" onclick="document.getElementById('card').webkitRequestFullScreen();" title="Pantalla Completa"><i class="fas fa-expand fa-3x"></i></button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<button type="button" class="btn" ng-class="color" ng-click="info()" title="Instrucciones"><i class="fas fa-question fa-3x"></i></button>
+		</div>
+		<div class="col">
+			<button id="myBtn" type="button" ng-class="color" class="btn" ng-click="config()" title="Configurar"><i class="fas fa-wrench fa-3x"></i></button>
+		</div>
+		<div class="col">
+		</div>
+		<div class="col">
+
+		</div>
+		<div class="col">
+
+		</div>
+		<div class="col">
+			<button type="button" class="btn" ng-class="color" ng-click="about()" title="Acerca de"><i class="fas fa-info fa-3x"></i></button>
+		</div>
+	</div>
+
+	<div id="myModal" class="modal">
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<h3>Tema de las Tarjetas</h3>
+			<h4>Color Principal</h4>
+			<div class="row">
+				<div class="col">
+					<button type="button" class="btn red" ng-click="color='red'"></button>
+				</div>
+				<div class="col">
+					<button type="button" class="btn blue" ng-click="color='blue'"></button>
+				</div>
+				<div class="col">
+					<button type="button" class="btn purple" ng-click="color='purple'"></button>
+				</div>
+				<div class="col">
+					<button type="button" class="btn green" ng-click="color='green'"></button>
+				</div>
+				<div class="col">
+					<button type="button" class="btn pink" ng-click="color='pink'"></button>
+				</div>
+				<div class="col">
+					<button type="button" class="btn default" ng-click="color='initial-primary'"></button>
+				</div>
+			</div>
+			<h4>Color Secundario</h4>
+			<div class="row">
+				<div class="col">
+					<button type="button" class="btn soft-grey" ng-click="color_alt='soft-grey'"></button>
+				</div>
+				<div class="col">
+					<button type="button" class="btn grey" ng-click="color_alt='grey'"></button>
+				</div>
+				<div class="col">
+					<button type="button" class="btn blue-grey" ng-click="color_alt='blue-grey'"></button>
+				</div>
+				<div class="col">
+					<button type="button" class="btn default" ng-click="color_alt='initial-secondary'"></button>
+				</div>
+			</div>
+			<h4>Tema: <small>{{themeList.label}}</small>
+				<div class="theme">
+					<img ng-src="img/{{themeList.value}}/0.png">
+				</div>
+			</h4>
+			<div class="custom-select">
+				<select id="theme"
+						ng-model="themeList" 
+						ng-options="theme as theme.label for theme in themes track by theme.value">           
+    			</select>
+			</div>
+		</div>
+
+	</div>
+</body>
+
+<script>
+	$( document ).ready(function() {
+		screen.lockOrientation("portrait");
+	});
+	// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal 
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
